@@ -97,6 +97,18 @@ public class Sandwich {
         sb.append("Total Cost: $").append(String.format("%.2f", calculateSandwichCost()));
         return sb.toString();
     }
-
+    public String getDetails() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(size).append("\" ").append(breadType).append(" Sandwich\n");
+        if (isToasted) {
+            sb.append("Toasted\n");
+        }
+        sb.append("Toppings:\n");
+        for (Topping topping : toppings) {
+            sb.append(" - ").append(topping.getName()).append("\n");
+        }
+        sb.append("Total Cost: $").append(String.format("%.2f", calculateSandwichCost()));
+        return sb.toString();
+    }
 
 }

@@ -1,30 +1,28 @@
 package com.pluralsight.classes;
 
-import com.pluralsight.classes.order.Drink;
-import com.pluralsight.classes.order.NewOrder;
-import com.pluralsight.classes.order.Order;
-import com.pluralsight.classes.order.Sandwich;
+import com.pluralsight.classes.files.MenuFileManager;
+import com.pluralsight.classes.order.*;
 import com.pluralsight.classes.topping.PremiumTopping;
 import com.pluralsight.classes.topping.RegularTopping;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+
 
 public class UserInterface {
 
     private Scanner scanner;
+    private MenuFileManager menuFileManager;
     private Map<String, List<String>> menu;
-    private List<String> menuItems;
+    private OrdersManager ordersManager;
 
     public UserInterface(){
 
         scanner = new Scanner(System.in);
+        menuFileManager = new MenuFileManager();
         menu = new HashMap<>();
-        menuItems = new ArrayList<>();
+        ordersManager = new OrdersManager();
         try {
-            readMenuFromFile("menu.txt");
+            menuFileManager.readMenuFromFile("menu.txt");
         } catch (IOException e) {
             System.err.println("Error reading menu file: " + e.getMessage());
         }
@@ -33,25 +31,11 @@ public class UserInterface {
     }
 
     private void readMenuFromFile(String filename) throws IOException {
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
-            String line;
-            String currentCategory = "";
-            while ((line = br.readLine()) != null) {
-                line = line.trim();
-                if (line.startsWith("#")) {
-                    currentCategory = line.substring(1).trim();
-                    menu.put(currentCategory, new ArrayList<>());
-                } else if (!line.isEmpty()) {
-                    menu.get(currentCategory).add(line);
-                    menuItems.add(line);
-                }
-            }
-        }
+        menuFileManager.readMenuFromFile("menu.txt");
     }
 
     private void displayCategoryMenu(String category) {
-        List<String> items = menu.get(category);
+        List<String> items = menuFileManager.getMenuItems(category);
         if (items != null) {
             System.out.println(category + ":");
             for (String item : items) {
@@ -88,7 +72,7 @@ public class UserInterface {
 
     public void customerOrder() {
 
-        Order order = new NewOrder();
+        Order order = new Order();
 
         while (true) {
             System.out.println("New Order - Please choose an option:");
@@ -368,14 +352,17 @@ public class UserInterface {
         System.out.println("Cost: $" + sandwich.getCost());
 
         order.addSandwich(sandwich);
-        System.out.println("Sandwich added to order!");
 
-        System.out.println("Confirm this sandwich? (yes/no)");
+        order.getAllSandwichDetails();
+
+        System.out.println("Does everything look correct?");
+
+        System.out.println("yes/no)");
         String confirmChoice = scanner.nextLine();
         if (confirmChoice.equalsIgnoreCase("yes")) {
-            order.addSandwich(sandwich);
             System.out.println("Sandwich added to your order.");
         } else {
+            order.removeSandwich();
             System.out.println("Sandwich not added.");
         }
 
@@ -495,15 +482,151 @@ public class UserInterface {
 
     public void addChips(Order order) {
 
-        
+        System.out.println("Select a chip type:");
+        System.out.println("1) Original Lays");
+        System.out.println("2) BBQ Lays");
+        System.out.println("3) Limon Lays");
+        System.out.println("4) Cheetos");
+        System.out.println("5) Hot Cheetos");
+        System.out.println("6) Doritos");
+        System.out.println("7) Cool Ranch Doritos");
+        System.out.println("8) Chicharrones");
+        System.out.println("9) Original Plantain Chips");
+        System.out.println("10) Chile Limon Plantain Chips");
+
+        int chipChoice = scanner.nextInt();
+        scanner.nextLine();
+
+
+        String chipName;
+        double cost = 1.50;
+
+        switch (chipChoice) {
+            case 1:
+                chipName = "Original Lays";
+                break;
+            case 2:
+                chipName = "BBQ Lays";
+                break;
+            case 3:
+                chipName = "Limon Lays";
+                break;
+            case 4:
+                chipName = "Cheetos";
+                break;
+            case 5:
+                chipName = "Hot Cheetos";
+                break;
+            case 6:
+                chipName = "Doritos";
+                break;
+            case 7:
+                chipName = "Cool Ranch Doritos";
+                break;
+            case 8:
+                chipName = "Chicharrones";
+                break;
+            case 9:
+                chipName = "Original Plantain Chips";
+                break;
+            case 10:
+                chipName = "Chile Limon Plantain Chips";
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                return;
+        }
+
+        Chip chip = new Chip(chipName, cost);
+        order.addChips(chip);
+
+        System.out.println(chipName + " added to your order.");
+
+
 
     }
+
+
     public void checkout(Order order){
 
+        System.out.println("Your Order:");
+        System.out.println(order);
+
+        System.out.println("Total Cost: $" + order.calculateOrderTotal());
+        System.out.println("Gracias por comprar en Brya's Bronx Bodega!");
+
+        order.createOrderReceipt();
+
     }
 
-    public void cancelOrder(Order order){
-
+    public void addOrder(Order order) {
+        ordersManager.addOrder(order);
     }
+
+    public void editOrder() {
+        boolean editing = true;
+
+        while (editing) {
+            System.out.println("Edit Order:");
+            System.out.println("1) Remove Sandwich");
+            System.out.println("2) Remove Drink");
+            System.out.println("3) Remove Chip");
+            System.out.println("4) Done Editing");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    removeSandwichFromOrder();
+                    break;
+                case 2:
+                    removeDrinkFromOrder();
+                    break;
+                case 3:
+                    removeChipFromOrder();
+                    break;
+                case 4:
+                    editing = false; // Exit editing loop
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    public void removeSandwichFromOrder() {
+        Order currentOrder = ordersManager.getCurrentOrder(); // Assuming you have a method to get the current order
+
+        if (currentOrder == null || currentOrder.getSandwiches().isEmpty()) {
+            System.out.println("No sandwiches to remove.");
+            return;
+        }
+
+        System.out.println("Select a sandwich to remove:");
+        List<Sandwich> sandwiches = currentOrder.getSandwiches();
+        for (int i = 0; i < sandwiches.size(); i++) {
+            System.out.println((i + 1) + ") " + sandwiches.get(i).getDetails());
+        }
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice < 1 || choice > sandwiches.size()) {
+            System.out.println("Invalid choice.");
+            return;
+        }
+
+        Sandwich removedSandwich = sandwiches.remove(choice - 1);
+        System.out.println("Removed: " + removedSandwich.getDetails());
+    }
+
+
+
+    public void cancelOrder(Order order) {
+        ordersManager.removeOrder(order);
+    }
+
+
 
 }

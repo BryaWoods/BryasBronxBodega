@@ -1,7 +1,5 @@
 package com.pluralsight.classes;
 
-import com.pluralsight.classes.order.Order;
-
 public class Customer {
 
     private String name;
