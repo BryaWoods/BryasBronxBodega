@@ -2,6 +2,7 @@ package com.pluralsight.classes;
 
 import com.pluralsight.classes.order.NewOrder;
 import com.pluralsight.classes.order.Order;
+import com.pluralsight.classes.order.Sandwich;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,6 +30,7 @@ public class UserInterface {
     }
 
     private void readMenuFromFile(String filename) throws IOException {
+
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
             String currentCategory = "";
@@ -58,8 +60,9 @@ public class UserInterface {
     public void displayHomeScreen() {
 
         while (true) {
-            System.out.println("Welcome Brya's Bronx Bodega!");
-            System.out.println("");
+            System.out.println(" ");
+            System.out.println("Welcome 2 Brya's Bronx Bodega!");
+            System.out.println("Press 1 to start your order bby");
             System.out.println("1) New Order");
             System.out.println("0) Exit");
 
@@ -71,7 +74,7 @@ public class UserInterface {
                     customerOrder();
                     break;
                 case 0:
-                    System.out.println("Thank you for visiting DELI-cious. Goodbye!");
+                    System.out.println("Thank you for visiting Brya's Bronx Bodega. Peace & Luv!");
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -119,6 +122,8 @@ public class UserInterface {
     }
 
     public void addSandwich(Order order){
+        Sandwich sandwich = new Sandwich();
+
 
     }
 

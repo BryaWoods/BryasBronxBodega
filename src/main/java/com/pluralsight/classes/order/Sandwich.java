@@ -2,6 +2,7 @@ package com.pluralsight.classes.order;
 
 import com.pluralsight.classes.topping.Topping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sandwich {
@@ -10,12 +11,11 @@ public class Sandwich {
     private String breadType;
     private List<Topping> toppings;
     private boolean isToasted;
+    private double cost;
 
-    public Sandwich(int size, String breadType, List<Topping> toppings, boolean isToasted) {
-        this.size = size;
-        this.breadType = breadType;
-        this.toppings = toppings;
-        this.isToasted = isToasted;
+    public Sandwich() {
+        this.toppings = new ArrayList<>();
+        this.isToasted = false;
     }
 
     public int getSize() {
@@ -34,10 +34,6 @@ public class Sandwich {
         this.breadType = breadType;
     }
 
-    public List<Topping> getToppings() {
-        return toppings;
-    }
-
     public void setToppings(List<Topping> toppings) {
         this.toppings = toppings;
     }
@@ -50,6 +46,18 @@ public class Sandwich {
         isToasted = toasted;
     }
 
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public List<Topping> getToppings() {
+        return toppings;
+    }
+
     public void addTopping(Topping topping) {
         toppings.add(topping);
     }
@@ -59,10 +67,27 @@ public class Sandwich {
     }
 
     public double calculateSandwichCost() {
-        double cost = 0.0;
+        double totalCost = this.cost;
         for (Topping topping : toppings) {
-            cost += topping.getCost();
+            totalCost += topping.getCost();
         }
-        return cost;
+        return totalCost;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(size).append("\" ").append(breadType).append(" Sandwich\n");
+        if (isToasted) {
+            sb.append("Toasted\n");
+        }
+        sb.append("Toppings:\n");
+        for (Topping topping : toppings) {
+            sb.append(" - ").append(topping.getName()).append("\n");
+        }
+        sb.append("Total Cost: $").append(String.format("%.2f", calculateSandwichCost()));
+        return sb.toString();
+    }
+
+
 }
