@@ -8,20 +8,21 @@ White Bread
 Wheat Bread
 Rye Bread
 Wrap
+Lettuce Wrap
 
 # Meats
-Steak: 1.00 (4")
-Ham: 0.50 (4")
-Salami: 0.75 (4")
-Roast Beef: 1.00 (4")
-Chicken: 1.50 (4")
-Bacon: 1.50 (4")
+Steak: 1.00 (4"), 2.00 (8"), 3.00 (12")
+Ham: 1.00 (4"), 2.00 (8"), 3.00 (12")
+Salami: 1.00 (4"), 2.00 (8"), 3.00 (12")
+Roast Beef: 1.00 (4"), 2.00 (8"), 3.00 (12")
+Chicken: 1.00 (4"), 2.00 (8"), 3.00 (12")
+Bacon: 1.00 (4"), 2.00 (8"), 3.00 (12")
 
 # Cheeses
-American: 0.30 (4")
-Provolone: 0.30 (4")
-Cheddar: 0.30 (4")
-Swiss: 0.30 (4")
+American: 0.75 (4"), 1.50 (8"), 2.25 (12")
+Provolone: 0.75 (4"), 1.50 (8"), 2.25 (12")
+Cheddar: 0.75 (4"), 1.50 (8"), 2.25 (12")
+Swiss: 0.75 (4"), 1.50 (8"), 2.25 (12")
 
 # Regular Toppings
 Lettuce

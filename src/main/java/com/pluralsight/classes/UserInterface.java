@@ -3,6 +3,8 @@ package com.pluralsight.classes;
 import com.pluralsight.classes.order.NewOrder;
 import com.pluralsight.classes.order.Order;
 import com.pluralsight.classes.order.Sandwich;
+import com.pluralsight.classes.topping.PremiumTopping;
+import com.pluralsight.classes.topping.RegularTopping;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -121,11 +123,248 @@ public class UserInterface {
         }
     }
 
-    public void addSandwich(Order order){
+    public void addSandwich(Order order) {
         Sandwich sandwich = new Sandwich();
+
+        System.out.println("Choose a size:");
+        System.out.println("1) 4\" Sandwich");
+        System.out.println("2) 8\" Sandwich");
+        System.out.println("3) 12\" Sandwich");
+
+        int sizeChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (sizeChoice) {
+            case 1:
+                sandwich.setSize(4);
+                sandwich.setCost(5.50);
+                break;
+            case 2:
+                sandwich.setSize(8);
+                sandwich.setCost(7.00);
+                break;
+            case 3:
+                sandwich.setSize(12);
+                sandwich.setCost(8.50);
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                return;
+        }
+
+        //BREAD
+
+        System.out.println("Select your bread type or choose a lettuce wrap:");
+        displayCategoryMenu("Breads");
+
+        String breadType = scanner.nextLine();
+
+        if (breadType.equalsIgnoreCase("Lettuce Wrap")) {
+            sandwich.setBreadType("Lettuce Wrap");
+        } else {
+            boolean validBread = false;
+
+            for (String item : menu.get("Breads")) {
+                if (item.equalsIgnoreCase(breadType)) {
+                    sandwich.setBreadType(breadType);
+                    validBread = true;
+                    break;
+                }
+            }
+
+            if (!validBread) {
+                System.out.println("Invalid choice. Please try again.");
+                return;
+
+
+            }
+        }
+
+
+        //MEAT
+
+
+        while (true) {
+            System.out.println("Select a meat topping (or type 'done' to finish):");
+            displayCategoryMenu("Meats");
+
+            String meat = scanner.nextLine();
+            if (meat.equalsIgnoreCase("done")) {
+                break;
+            }
+
+
+            boolean validMeat = false;
+            for (String item : menu.get("Meats")) {
+                if (item.startsWith(meat)) {
+                    double extraCost = 0.0;
+                    switch (sandwich.getSize()) {
+                        case 4:
+                            extraCost = 1.00;
+                            break;
+                        case 8:
+                            extraCost = 2.00;
+                            break;
+                        case 12:
+                            extraCost = 3.00;
+                            break;
+                    }
+                    sandwich.addTopping(new PremiumTopping(meat, extraCost));
+                    sandwich.setCost(sandwich.getCost() + extraCost);
+                    validMeat = true;
+                    break;
+                }
+            }
+            if (!validMeat) {
+                System.out.println("Invalid choice. Please try again.");
+            } else {
+                System.out.println("Would you like to double your meat? (yes/no)");
+                String extraMeat = scanner.nextLine();
+                if (extraMeat.equalsIgnoreCase("yes")) {
+                    double extraCost = 0.0;
+                    switch (sandwich.getSize()) {
+                        case 4:
+                            extraCost = .50;
+                            break;
+                        case 8:
+                            extraCost = 1.00;
+                            break;
+                        case 12:
+                            extraCost = 1.50;
+                            break;
+                    }
+                    sandwich.addTopping(new PremiumTopping("Extra " + meat, extraCost));
+                    sandwich.setCost(sandwich.getCost() + extraCost);
+                }
+            }
+        }
+
+
+        //CHEESE
+
+        while (true) {
+            System.out.println("Select a cheese topping (or type 'done' to finish):");
+            displayCategoryMenu("Cheeses");
+
+            String cheese = scanner.nextLine();
+            if (cheese.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            boolean validCheese = false;
+            for (String item : menu.get("Cheeses")) {
+                if (item.startsWith(cheese)) {
+                    double extraCost = 0.0;
+                    switch (sandwich.getSize()) {
+                        case 4:
+                            extraCost = 0.75;
+                            break;
+                        case 8:
+                            extraCost = 1.00;
+                            break;
+                        case 12:
+                            extraCost = 1.50;
+                            break;
+                    }
+                    sandwich.addTopping(new PremiumTopping(cheese, extraCost));
+                    sandwich.setCost(sandwich.getCost() + extraCost);
+                    validCheese = true;
+                    break;
+                }
+            }
+            if (!validCheese) {
+                System.out.println("Invalid choice. Please try again.");
+
+            } else {
+
+                System.out.println("Would you like to double yor cheese?!? (yes/no)");
+                String extraCheese = scanner.nextLine();
+                if (extraCheese.equalsIgnoreCase("yes")) {
+                    double extraCost = 0.0;
+                    switch (sandwich.getSize()) {
+                        case 4:
+                            extraCost = 0.30;
+                            break;
+                        case 8:
+                            extraCost = .60;
+                            break;
+                        case 12:
+                            extraCost = 0.90;
+                            break;
+                    }
+                    sandwich.addTopping(new PremiumTopping("Extra " + cheese, extraCost));
+                    sandwich.setCost(sandwich.getCost() + extraCost);
+                }
+            }
+        }
+
+
+        //TOPPINGS
+
+
+        while (true) {
+            System.out.println("Select a regular topping (or type 'done' to finish):");
+            displayCategoryMenu("Regular Toppings");
+
+            String topping = scanner.nextLine();
+            if (topping.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            boolean validTopping = false;
+            for (String item : menu.get("Regular Toppings")) {
+                if (item.equalsIgnoreCase(topping)) {
+                    sandwich.addTopping(new RegularTopping(topping));
+                    validTopping = true;
+                    break;
+                }
+            }
+            if (!validTopping) {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        //CONDIMENTS
+
+        while (true) {
+            System.out.println("Select a condiment (or type 'done' to finish):");
+            displayCategoryMenu("Condiments");
+
+            String sauce = scanner.nextLine();
+            if (sauce.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            boolean validSauce = false;
+            for (String item : menu.get("Sauces")) {
+                if (item.equalsIgnoreCase(sauce)) {
+                    sandwich.addTopping(new RegularTopping(sauce));
+                    validSauce = true;
+                    break;
+                }
+            }
+            if (!validSauce) {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
+        //TOASTED
+
+        if (!sandwich.getBreadType().equalsIgnoreCase("Lettuce Wrap")) {
+            System.out.println("Would you like the sandwich toasted? (yes/no)");
+            String toasted = scanner.nextLine();
+            sandwich.setToasted(toasted.equalsIgnoreCase("yes"));
+        } else {
+            sandwich.setToasted(false);
+        }
+
+        order.addSandwich(sandwich);
+        System.out.println("Sandwich added to order!");
 
 
     }
+
+
 
     public void addDrink(Order order) {
 
