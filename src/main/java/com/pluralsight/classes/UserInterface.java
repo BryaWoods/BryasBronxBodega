@@ -386,17 +386,16 @@ public class UserInterface {
 
     public void addDrink(Order order) {
 
-        System.out.println("Choose drink size:");
-        System.out.println("1) Small");
-        System.out.println("2) Medium");
-        System.out.println("3) Large");
+        System.out.println("Select drink size:");
+        System.out.println("1) Small Drink - $2.00");
+        System.out.println("2) Medium Drink - $2.50");
+        System.out.println("3) Large Drink - $3.00");
 
         int sizeChoice = scanner.nextInt();
         scanner.nextLine();
 
-        String size = null;
-        double cost = 0.0;
-
+        String size;
+        double cost;
 
         switch (sizeChoice) {
             case 1:
@@ -416,18 +415,87 @@ public class UserInterface {
                 return;
         }
 
-        System.out.println("Enter drink choice: ");
-        String type = scanner.nextLine();
 
-        Drink drink = new Drink(size, type, cost);
+        System.out.println("Select a drink for " + size + ":");
+        System.out.println("1) Coca-Cola");
+        System.out.println("2) Diet Coke");
+        System.out.println("3) Coke Zero Sugar");
+        System.out.println("4) Sprite");
+        System.out.println("5) Fanta");
+        System.out.println("6) Barq's Root Beer");
+        System.out.println("7) Hi-C");
+        System.out.println("8) Minute Maid Lemonade");
+        System.out.println("9) Coco Rico Soda");
+        System.out.println("10) Kola Champagne");
+        System.out.println("11) Medalla Beer");
+        System.out.println("12) Piña Colada");
+        System.out.println("13) Horchata");
+        System.out.println("14) Aguas Frescas");
+
+        int drinkChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        String drinkName;
+
+        switch (drinkChoice) {
+            case 1:
+                drinkName = "Coca-Cola";
+                break;
+            case 2:
+                drinkName = "Diet Coke";
+                break;
+            case 3:
+                drinkName = "Coke Zero Sugar";
+                break;
+            case 4:
+                drinkName = "Sprite";
+                break;
+            case 5:
+                drinkName = "Fanta";
+                break;
+            case 6:
+                drinkName = "Barq's Root Beer";
+                break;
+            case 7:
+                drinkName = "Hi-C";
+                break;
+            case 8:
+                drinkName = "Minute Maid Lemonade";
+                break;
+            case 9:
+                drinkName = "Coco Rico Soda";
+                break;
+            case 10:
+                drinkName = "Kola Champagne";
+                break;
+            case 11:
+                drinkName = "Medalla Beer";
+                break;
+            case 12:
+                drinkName = "Piña Colada";
+                break;
+            case 13:
+                drinkName = "Horchata";
+                break;
+            case 14:
+                drinkName = "Aguas Frescas";
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                return;
+        }
+
+        Drink drink = new Drink(size, drinkName, cost);
         order.addDrink(drink);
-        System.out.println(type + " (" + size + ") added to order. Cost: $" + cost);
 
-
-
+        System.out.println(drinkName + " (" + size + ") added to your order.");
     }
 
+
+
     public void addChips(Order order) {
+
+        
 
     }
     public void checkout(Order order){
