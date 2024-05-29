@@ -1,5 +1,6 @@
 package com.pluralsight.classes;
 
+import com.pluralsight.classes.order.Drink;
 import com.pluralsight.classes.order.NewOrder;
 import com.pluralsight.classes.order.Order;
 import com.pluralsight.classes.order.Sandwich;
@@ -330,20 +331,20 @@ public class UserInterface {
             System.out.println("Select a condiment (or type 'done' to finish):");
             displayCategoryMenu("Condiments");
 
-            String sauce = scanner.nextLine();
-            if (sauce.equalsIgnoreCase("done")) {
+            String condiment = scanner.nextLine();
+            if (condiment.equalsIgnoreCase("done")) {
                 break;
             }
 
-            boolean validSauce = false;
-            for (String item : menu.get("Sauces")) {
-                if (item.equalsIgnoreCase(sauce)) {
-                    sandwich.addTopping(new RegularTopping(sauce));
-                    validSauce = true;
+            boolean validCondiment = false;
+            for (String item : menu.get("Condiments")) {
+                if (item.equalsIgnoreCase(condiment)) {
+                    sandwich.addTopping(new RegularTopping(condiment));
+                    validCondiment = true;
                     break;
                 }
             }
-            if (!validSauce) {
+            if (!validCondiment) {
                 System.out.println("Invalid choice. Please try again.");
             }
         }
@@ -358,8 +359,25 @@ public class UserInterface {
             sandwich.setToasted(false);
         }
 
+        System.out.println("Your sandwich:");
+        System.out.println("Size: " + sandwich.getSize() + "\"");
+        System.out.println("Bread: " + sandwich.getBreadType());
+        System.out.println("Toppings: " + sandwich.getToppings());
+        System.out.println("Sauces: " + sandwich.getCondiments());
+        System.out.println("Toasted: " + (sandwich.isToasted() ? "Yes" : "No"));
+        System.out.println("Cost: $" + sandwich.getCost());
+
         order.addSandwich(sandwich);
         System.out.println("Sandwich added to order!");
+
+        System.out.println("Confirm this sandwich? (yes/no)");
+        String confirmChoice = scanner.nextLine();
+        if (confirmChoice.equalsIgnoreCase("yes")) {
+            order.addSandwich(sandwich);
+            System.out.println("Sandwich added to your order.");
+        } else {
+            System.out.println("Sandwich not added.");
+        }
 
 
     }
@@ -367,6 +385,45 @@ public class UserInterface {
 
 
     public void addDrink(Order order) {
+
+        System.out.println("Choose drink size:");
+        System.out.println("1) Small");
+        System.out.println("2) Medium");
+        System.out.println("3) Large");
+
+        int sizeChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        String size = null;
+        double cost = 0.0;
+
+
+        switch (sizeChoice) {
+            case 1:
+                size = "Small";
+                cost = 2.00;
+                break;
+            case 2:
+                size = "Medium";
+                cost = 2.50;
+                break;
+            case 3:
+                size = "Large";
+                cost = 3.00;
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                return;
+        }
+
+        System.out.println("Enter drink choice: ");
+        String type = scanner.nextLine();
+
+        Drink drink = new Drink(size, type, cost);
+        order.addDrink(drink);
+        System.out.println(type + " (" + size + ") added to order. Cost: $" + cost);
+
+
 
     }
 
