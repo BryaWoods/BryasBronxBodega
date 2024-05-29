@@ -1,15 +1,19 @@
 package com.pluralsight.classes.topping;
 
-public class RegularTopping extends Topping {
-    private double cost;
+public class RegularTopping implements Topping {
+    private String name;
 
-    public RegularTopping(String name, double cost) {
-        super(name);
-        this.cost = cost;
+    public RegularTopping(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override
     public double getCost() {
-        return this.cost;
+        return 0.0;
     }
 }
