@@ -1,10 +1,14 @@
 package com.pluralsight.classes.topping;
 
-public class RegularTopping extends Topping {
+public class Sides extends Topping {
+
+    private String name;
+
     private double cost;
 
-    public RegularTopping(String name, double cost) {
+    public Sides(String name, String name1, double cost) {
         super(name);
+        this.name = name1;
         this.cost = cost;
     }
 
