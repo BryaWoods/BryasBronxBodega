@@ -1,0 +1,14 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T18:46:04.132468
+Sandwiches:
+8" white bread Sandwich
+Toppings:
+ - Peanut Butter
+ - Grape Jelly
+Total Cost: $4.00
+Drinks:
+Chips:
+Hot Cheetos ($1.50)
+
+Total Cost: $5.5

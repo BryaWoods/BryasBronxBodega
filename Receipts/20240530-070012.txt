@@ -1,0 +1,11 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T18:58:31.538266
+Sandwiches:
+Drinks:
+Large Piña Colada ($6.50)
+Small Tequila Shot ($0.00)
+Chips:
+Limon Lays ($0.00)
+
+Total Cost: $6.5

@@ -13,12 +13,10 @@ public class UserInterface {
     private Scanner scanner;
     private MenuFileManager menuFileManager;
     private OrdersManager ordersManager;
-    //private Order order;
     Order order = new Order();
 
     public UserInterface(){
-
-        Order order = new Order();
+        
         scanner = new Scanner(System.in);
         menuFileManager = new MenuFileManager();
         ordersManager= new OrdersManager();
@@ -122,7 +120,7 @@ public class UserInterface {
                     break;
                 case 4:
                     displaySecretMenu();
-                    return;
+                    break;
                 case 5:
                     checkout();
                     return;
@@ -581,10 +579,11 @@ public class UserInterface {
     public void checkout() {
         displayConfirmationScreen();
         ordersManager.addOrder(order);
+        order = new Order();
 
 
-        List<Order> pendingOrdersList = ordersManager.getPendingOrders();
-        pendingOrdersList.add(order);
+        //List<Order> pendingOrdersList = ordersManager.getPendingOrders();
+        //pendingOrdersList.add(order);
 
 
         System.out.println("Estimated wait time 15 min");
@@ -830,6 +829,7 @@ public class UserInterface {
     }
 
     private void displaySecretMenu() {
+        SecretMenu secretMenu = new SecretMenu(order);
         System.out.println("Welcome to Brya's Secret Menu!");
         System.out.println("Choose from our wild and exclusive offerings:");
 
@@ -846,79 +846,27 @@ public class UserInterface {
 
         switch (choice) {
             case 1:
-                addHailBrya();
+                secretMenu.addHailBrya();
                 break;
             case 2:
-                addBDKMV();
+                secretMenu.addBeachDontKillMyVibe();
                 break;
             case 3:
-                addPBJ();
+                secretMenu.addPBJ();
                 break;
             case 4:
-                addWIITB();
+                secretMenu.addWIITB();
                 break;
             case 5:
-                addNYC();
+                secretMenu.addILoveNYC();
                 break;
             case 6:
-                addBBB();
+                secretMenu.addBadBunnyBurger();
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
     }
-
-   public void addHailBrya() {
-       Sandwich sandwich = new Sandwich();
-
-       sandwich.setSize(8);
-
-       sandwich.setCost(7.00);
-
-       sandwich.setBreadType("white bread");
-
-       sandwich.addTopping(new RegularTopping("Steak"));
-       sandwich.addTopping(new RegularTopping("Lettuce"));
-       sandwich.addTopping(new RegularTopping("American"));
-       sandwich.addTopping(new RegularTopping("Special Sauce"));
-
-       sandwich.setToasted(true);
-
-       order.addSandwich(sandwich);
-
-       System.out.println("Hail Brya added to your order!!");
-
-
-    }
-
-    public void addBDKMV(){
-
-        Drink drink = new Drink("Large","Piña Colada",6.50);
-
-        Chip chip = new Chip("Limon Lays", 0);
-
-        Drink shot = new Drink("Small","Tequila Shot",0);
-
-
-
-
-    }
-
-    public void addPBJ() {
-
-    }
-    public void addWIITB() {
-
-    }
-
-    public void addNYC() {
-
-    }
-
-    public void addBBB() {
-
-    }
-
 
 
 }

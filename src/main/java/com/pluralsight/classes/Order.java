@@ -136,20 +136,12 @@ public class Order {
     }
 
 
-    public void removeSandwich(int index) {
 
-        if (index >= 0 && index < sandwiches.size()) {
-            sandwiches.remove(index);
-            System.out.println("Sandwich removed from order.");
-        } else {
-            System.out.println("Invalid sandwich index.");
-        }
-    }
 
     public void removeMostRecentSandwich() {
         if (lastAddedSandwichIndex != -1) {
             sandwiches.remove(lastAddedSandwichIndex);
-            lastAddedSandwichIndex = -1; // Reset the last added sandwich index
+            lastAddedSandwichIndex = -1;
             System.out.println("Most recent sandwich removed from order.");
         } else {
             System.out.println("No sandwiches to remove.");

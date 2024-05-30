@@ -1,0 +1,19 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T18:46:04.132468
+Sandwiches:
+8" white bread Sandwich
+Toasted
+Toppings:
+ - Grilled Cheese
+ - Burger
+Total Cost: $6.50
+8" bagel Sandwich
+Toasted
+Toppings:
+ - Cream Cheese
+Total Cost: $7.00
+Drinks:
+Chips:
+
+Total Cost: $13.5

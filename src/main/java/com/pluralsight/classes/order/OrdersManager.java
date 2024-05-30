@@ -26,43 +26,15 @@ public class OrdersManager {
         pendingOrders.remove(order); // Also remove from pending orders
     }
 
-    public List<Order> getAllOrders() {
-        return orders;
-    }
 
-    public Order getCurrentOrder() {
-        if (!orders.isEmpty()) {
-            return orders.get(orders.size() - 1);
-        }
-        return null;
-    }
-
-    public String getOrderDetails(Order order) {
-        if (orders.contains(order)) {
-            return order.toString();
-        }
-        return "Order not found.";
-    }
-
-    public void displayOrders() {
-        if (orders.isEmpty()) {
-            System.out.println("No orders currently.");
-        } else {
-            System.out.println("Orders:");
-            for (Order order : orders) {
-                System.out.println(order);
-            }
-        }
-    }
 
     public void completeOrder(Order order) {
-        if (orders.contains(order)) {
+        if (pendingOrders.contains(order)) {
             archiveOrders.add(order);
             pendingOrders.remove(order);
-            orders.remove(order);
             System.out.println("Order completed and archived.");
         } else {
-            System.out.println("Order not found.");
+            System.out.println("Order not found in pending orders.");
         }
     }
 
@@ -84,16 +56,7 @@ public class OrdersManager {
             }
         }
     }
-
-    public void displayPendingOrders() {
-        if (pendingOrders.isEmpty()) {
-            System.out.println("No pending orders currently.");
-        } else {
-            System.out.println("Pending Orders:");
-            for (Order order : pendingOrders) {
-                System.out.println(order);
-            }
-        }
-    }
 }
+
+
 

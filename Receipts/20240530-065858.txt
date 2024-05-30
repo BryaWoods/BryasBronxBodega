@@ -1,0 +1,24 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T18:58:31.538266
+Sandwiches:
+8" white bread Sandwich
+Toasted
+Toppings:
+ - Ham
+ - Cheese
+ - Mayo
+ - Lays
+Total Cost: $6.50
+8" white bread Sandwich
+Toasted
+Toppings:
+ - Ham
+ - Cheese
+ - Mayo
+ - Lays
+Total Cost: $6.50
+Drinks:
+Chips:
+
+Total Cost: $13.0
