@@ -16,4 +16,9 @@ public class RegularTopping implements Topping {
     public double getCost() {
         return 0.0;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

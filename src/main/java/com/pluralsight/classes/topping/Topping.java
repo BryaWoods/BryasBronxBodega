@@ -4,4 +4,6 @@ public interface Topping {
     String getName();
 
     double getCost();
+
+    String toString();
 }

@@ -1,0 +1,11 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T12:52:32.883546
+Sandwiches:
+Drinks:
+com.pluralsight.classes.order.Drink@7699a589
+com.pluralsight.classes.order.Drink@58372a00
+Chips:
+com.pluralsight.classes.order.Chip@4dd8dc3
+
+Total Cost: $6.5

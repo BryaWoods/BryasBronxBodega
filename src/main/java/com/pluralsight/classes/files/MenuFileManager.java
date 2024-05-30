@@ -31,6 +31,12 @@ public class MenuFileManager {
         }
     }
 
+    /**
+     * Gets the stuff
+     *
+     * @param category The category to get
+     * @return The stuff
+     */
     public List<String> getMenuItems(String category) {
         return menu.get(category);
     }

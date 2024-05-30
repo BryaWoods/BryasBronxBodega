@@ -25,4 +25,16 @@ public class Chip {
     public void setCost(double cost) {
         this.cost = cost;
     }
+
+    public String getDetails() {
+        StringBuilder details = new StringBuilder();
+        details.append("Chip: ").append(type).append("\n");
+        details.append("Cost: $").append(cost).append("\n");
+        return details.toString();
+    }
+
+    @Override
+    public String toString() {
+        return type + " ($" + String.format("%.2f", cost) + ")";
+    }
 }

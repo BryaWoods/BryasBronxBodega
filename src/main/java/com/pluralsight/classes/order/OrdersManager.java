@@ -7,6 +7,7 @@ import java.util.List;
 
 public class OrdersManager {
     private List<Order> orders;
+    private List<Order> archiveOrders;
 
     public OrdersManager() {
         orders = new ArrayList<>();
@@ -46,8 +47,33 @@ public class OrdersManager {
             for (Order order : orders) {
                 System.out.println(order);
             }
-
-
         }
     }
-}
+
+            public void completeOrder(Order order) {
+                if (orders.contains(order)) {
+                    archiveOrders.add(order);
+                    orders.remove(order);
+                    System.out.println("Order completed and archived.");
+                } else {
+                    System.out.println("Order not found.");
+                }
+            }
+
+    public List<Order> getArchiveOrders() {
+        return archiveOrders;
+    }
+
+
+    public void displayArchiveOrders() {
+        if (archiveOrders.isEmpty()) {
+            System.out.println("No completed orders currently.");
+        } else {
+            System.out.println("Completed Orders:");
+            for (Order order : archiveOrders) {
+                System.out.println(order);
+            }
+        }
+    }
+
+        }

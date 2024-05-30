@@ -12,15 +12,16 @@ public class UserInterface {
 
     private Scanner scanner;
     private MenuFileManager menuFileManager;
-    private Map<String, List<String>> menu;
     private OrdersManager ordersManager;
+    //private Order order;
+    Order order = new Order();
 
     public UserInterface(){
 
+        Order order = new Order();
         scanner = new Scanner(System.in);
         menuFileManager = new MenuFileManager();
-        menu = new HashMap<>();
-        ordersManager = new OrdersManager();
+        ordersManager= new OrdersManager();
         try {
             menuFileManager.readMenuFromFile("menu.txt");
         } catch (IOException e) {
@@ -49,30 +50,60 @@ public class UserInterface {
         while (true) {
             System.out.println(" ");
             System.out.println("Welcome 2 Brya's Bronx Bodega!");
-            System.out.println("Press 1 to start your order bby");
-            System.out.println("1) New Order");
-            System.out.println("0) Exit");
+            System.out.println("Enter your name to proceed:");
+            String name = scanner.nextLine();
+
+            if (name.equalsIgnoreCase("Staff")) {
+                System.out.println("Enter password to access employee menu:");
+                String password = scanner.nextLine();
+
+                if (authenticatePassword()) {
+                    System.out.println("Authentication successful.");
+                    displayEmployeeMenu();
+                } else {
+                    System.out.println("Authentication failed. Access denied.");
+                    return;
+                }
+            } else {
+                System.out.println("Hello, " + name + "! Let's start your order.");
+                customerOrder();
+            }
+        }
+    }
+
+    private void displayEmployeeMenu() {
+        while (true) {
+            System.out.println("\nEmployee Menu:");
+            System.out.println("1. Complete Orders");
+            System.out.println("2. Display Orders in Progress");
+            System.out.println("3. Display Completed Orders");
+            System.out.println("0. Exit Employee Menu");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
 
             switch (choice) {
                 case 1:
-                    customerOrder();
+                    completeOrdersMenu();
+                    break;
+                case 2:
+                    displayOrdersInProgress();
+                    break;
+                case 3:
+                    displayCompletedOrders();
                     break;
                 case 0:
-                    System.out.println("Thank you for visiting Brya's Bronx Bodega. Peace & Luv!");
+                    System.out.println("Exiting Employee Menu.");
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-
     }
 
-    public void customerOrder() {
 
-        Order order = new Order();
+        public void customerOrder() {
+
 
         while (true) {
             System.out.println("New Order - Please choose an option:");
@@ -87,19 +118,19 @@ public class UserInterface {
 
             switch (choice) {
                 case 1:
-                    addSandwich(order);
+                    addSandwich();
                     break;
                 case 2:
-                    addDrink(order);
+                    addDrink();
                     break;
                 case 3:
-                    addChips(order);
+                    addChips();
                     break;
                 case 4:
-                    checkout(order);
+                    checkout();
                     return;
                 case 0:
-                    cancelOrder(order);
+                    cancelOrder();
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -108,7 +139,7 @@ public class UserInterface {
         }
     }
 
-    public void addSandwich(Order order) {
+    public void addSandwich() {
         Sandwich sandwich = new Sandwich();
 
         System.out.println("Choose a size:");
@@ -149,7 +180,7 @@ public class UserInterface {
         } else {
             boolean validBread = false;
 
-            for (String item : menu.get("Breads")) {
+            for (String item : menuFileManager.getMenuItems("Breads")) {
                 if (item.equalsIgnoreCase(breadType)) {
                     sandwich.setBreadType(breadType);
                     validBread = true;
@@ -180,7 +211,7 @@ public class UserInterface {
 
 
             boolean validMeat = false;
-            for (String item : menu.get("Meats")) {
+            for (String item : menuFileManager.getMenuItems("Meats")) {
                 if (item.startsWith(meat)) {
                     double extraCost = 0.0;
                     switch (sandwich.getSize()) {
@@ -237,7 +268,7 @@ public class UserInterface {
             }
 
             boolean validCheese = false;
-            for (String item : menu.get("Cheeses")) {
+            for (String item : menuFileManager.getMenuItems("Cheeses")) {
                 if (item.startsWith(cheese)) {
                     double extraCost = 0.0;
                     switch (sandwich.getSize()) {
@@ -297,7 +328,7 @@ public class UserInterface {
             }
 
             boolean validTopping = false;
-            for (String item : menu.get("Regular Toppings")) {
+            for (String item : menuFileManager.getMenuItems("Regular Toppings")) {
                 if (item.equalsIgnoreCase(topping)) {
                     sandwich.addTopping(new RegularTopping(topping));
                     validTopping = true;
@@ -321,7 +352,7 @@ public class UserInterface {
             }
 
             boolean validCondiment = false;
-            for (String item : menu.get("Condiments")) {
+            for (String item : menuFileManager.getMenuItems("Condiments")) {
                 if (item.equalsIgnoreCase(condiment)) {
                     sandwich.addTopping(new RegularTopping(condiment));
                     validCondiment = true;
@@ -347,7 +378,6 @@ public class UserInterface {
         System.out.println("Size: " + sandwich.getSize() + "\"");
         System.out.println("Bread: " + sandwich.getBreadType());
         System.out.println("Toppings: " + sandwich.getToppings());
-        System.out.println("Sauces: " + sandwich.getCondiments());
         System.out.println("Toasted: " + (sandwich.isToasted() ? "Yes" : "No"));
         System.out.println("Cost: $" + sandwich.getCost());
 
@@ -362,7 +392,7 @@ public class UserInterface {
         if (confirmChoice.equalsIgnoreCase("yes")) {
             System.out.println("Sandwich added to your order.");
         } else {
-            order.removeSandwich();
+            order.removeMostRecentSandwich();
             System.out.println("Sandwich not added.");
         }
 
@@ -371,7 +401,7 @@ public class UserInterface {
 
 
 
-    public void addDrink(Order order) {
+    public void addDrink() {
 
         System.out.println("Select drink size:");
         System.out.println("1) Small Drink - $2.00");
@@ -480,7 +510,7 @@ public class UserInterface {
 
 
 
-    public void addChips(Order order) {
+    public void addChips() {
 
         System.out.println("Select a chip type:");
         System.out.println("1) Original Lays");
@@ -547,26 +577,22 @@ public class UserInterface {
     }
 
 
-    public void checkout(Order order){
+    public void checkout(){
 
-        System.out.println("Your Order:");
-        System.out.println(order);
-
-        System.out.println("Total Cost: $" + order.calculateOrderTotal());
-        System.out.println("Gracias por comprar en Brya's Bronx Bodega!");
-
-        order.createOrderReceipt();
-
-    }
-
-    public void addOrder(Order order) {
+        displayConfirmationScreen();
         ordersManager.addOrder(order);
+        clearCurrentOrder();
+
+        System.exit(0);
+
+
     }
+
 
     public void editOrder() {
-        boolean editing = true;
 
-        while (editing) {
+
+        while (true) {
             System.out.println("Edit Order:");
             System.out.println("1) Remove Sandwich");
             System.out.println("2) Remove Drink");
@@ -574,7 +600,7 @@ public class UserInterface {
             System.out.println("4) Done Editing");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -587,8 +613,7 @@ public class UserInterface {
                     removeChipFromOrder();
                     break;
                 case 4:
-                    editing = false; // Exit editing loop
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -596,15 +621,16 @@ public class UserInterface {
     }
 
     public void removeSandwichFromOrder() {
-        Order currentOrder = ordersManager.getCurrentOrder(); // Assuming you have a method to get the current order
 
-        if (currentOrder == null || currentOrder.getSandwiches().isEmpty()) {
+
+
+        if (order == null || order.getSandwiches().isEmpty()) {
             System.out.println("No sandwiches to remove.");
             return;
         }
 
         System.out.println("Select a sandwich to remove:");
-        List<Sandwich> sandwiches = currentOrder.getSandwiches();
+        List<Sandwich> sandwiches = order.getSandwiches();
         for (int i = 0; i < sandwiches.size(); i++) {
             System.out.println((i + 1) + ") " + sandwiches.get(i).getDetails());
         }
@@ -621,9 +647,179 @@ public class UserInterface {
         System.out.println("Removed: " + removedSandwich.getDetails());
     }
 
+    public void removeDrinkFromOrder() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Select the drink you want to remove:");
 
 
-    public void cancelOrder(Order order) {
+        List<Drink> drinks = order.getDrinks();
+        for (int i = 0; i < drinks.size(); i++) {
+            System.out.println((i + 1) + ") " + drinks.get(i).getType());
+        }
+
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+
+        if (choice >= 1 && choice <= drinks.size()) {
+            Drink drinkToRemove = drinks.get(choice - 1);
+            order.removeDrink(drinkToRemove);
+            System.out.println(drinkToRemove.getType() + " removed from the order.");
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    public void removeChipFromOrder() {
+
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Select the chips you want to remove:");
+
+
+        List<Chip> chips = order.getChips();
+        for (int i = 0; i < chips.size(); i++) {
+            System.out.println((i + 1) + ") " + chips.get(i).getType());
+        }
+
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+
+        if (choice >= 1 && choice <= chips.size()) {
+            Chip chipToRemove = chips.get(choice - 1);
+            order.removeChip(chipToRemove);
+            System.out.println(chipToRemove.getType() + " removed from the order.");
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    public void displayConfirmationScreen() {
+        while(true) {
+            System.out.println("Your current order:");
+            displayOrderDetails();
+
+            System.out.println("\nWould you like to edit your order?");
+            System.out.println("1) Edit order");
+            System.out.println("2) Confirm order");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    editOrder();
+                    break;
+                case 2:
+                    confirmOrder();
+                    return;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        }
+    }
+
+    private void displayOrderDetails() {
+    order.getCurrentOrder();
+
+
+    }
+
+    public void confirmOrder() {
+
+        System.out.println("\nOrder confirmed!");
+        System.out.println("Generating receipt...");
+        order.createOrderReceipt();
+        System.out.println("Gracias por comprar en Brya's Bronx Bodega!");
+
+    }
+
+    public void clearCurrentOrder(){
+
+        order.getSandwiches().clear();
+        order.getDrinks().clear();
+        order.getChips().clear();
+
+
+    }
+
+    private void completeOrdersMenu() {
+
+        displayOrdersInProgress();
+
+
+        System.out.println("Enter the ID of the order to complete:");
+        int orderId = scanner.nextInt();
+        scanner.nextLine();
+
+        Order orderToComplete = null;
+        List<Order> ordersList = ordersManager.getAllOrders();
+        for (Order order : ordersList) {
+            if (order.getOrderId() == orderId) {
+                orderToComplete = order;
+                break;
+            }
+        }
+
+        if (orderToComplete != null) {
+            ordersManager.completeOrder(orderToComplete); // Use the completeOrder method from OrdersManager
+            System.out.println("Order completed and moved to completed orders list.");
+        } else {
+            System.out.println("Order not found. Please enter a valid ID.");
+        }
+    }
+
+
+
+
+
+    private void displayOrdersInProgress() {
+        System.out.println("Orders in Progress:");
+        List<Order> ordersList = ordersManager.getAllOrders();
+        for (Order order : ordersList) {
+            System.out.println("Order ID: " + order.getOrderId());
+            System.out.println("Customer Name: " + order.getCustomerName());
+            System.out.println("Order Status: In Progress");
+            System.out.println("Order Details:");
+            order.getCurrentOrder();
+            System.out.println("--------------------------------------");
+        }
+    }
+
+    private void displayCompletedOrders() {
+
+        ordersManager.displayArchiveOrders();
+
+    }
+
+    private boolean authenticatePassword() {
+        System.out.println("Enter password to access employee functions:");
+        String inputPassword = scanner.nextLine();
+
+        String correctPassword = "BadBunny";
+
+        if (inputPassword.equals(correctPassword)) {
+            System.out.println("Access granted.");
+            return true;
+        } else {
+            System.out.println("Incorrect password. Access denied.");
+            return false;
+        }
+    }
+
+
+
+
+
+
+    public void cancelOrder() {
         ordersManager.removeOrder(order);
     }
 

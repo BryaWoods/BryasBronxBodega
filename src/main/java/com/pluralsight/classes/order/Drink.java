@@ -35,4 +35,17 @@ public class Drink {
     public void setCost(double cost) {
         this.cost = cost;
     }
+
+    public String getDetails() {
+        StringBuilder details = new StringBuilder();
+        details.append("Drink: ").append(type).append("\n");
+        details.append("Size: ").append(size).append("\n");
+        details.append("Cost: $").append(cost).append("\n");
+        return details.toString();
+    }
+
+    @Override
+    public String toString() {
+        return size + " " + type + " ($" + String.format("%.2f", cost) + ")";
+    }
 }

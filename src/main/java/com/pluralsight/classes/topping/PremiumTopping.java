@@ -20,4 +20,9 @@ public class PremiumTopping implements Topping{
     public double getCost() {
         return extraCost;
     }
+
+    @Override
+    public String toString() {
+        return name + " ($" + String.format("%.2f", extraCost) + ")";
+    }
 }
