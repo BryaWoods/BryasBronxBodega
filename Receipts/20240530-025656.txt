@@ -1,0 +1,18 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T14:55:32.110374
+Sandwiches:
+4" Wheat Bread Sandwich
+Toasted
+Toppings:
+ - Roast Beef
+ - Cheddar
+ - Extra Cheddar
+ - Onions
+ - Tomatoes
+ - Mayo
+Total Cost: $9.60
+Drinks:
+Chips:
+
+Total Cost: $9.600000000000001

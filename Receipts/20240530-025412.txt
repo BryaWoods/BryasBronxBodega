@@ -1,0 +1,16 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T14:53:18.443415
+Sandwiches:
+8" Rye Bread Sandwich
+Toasted
+Toppings:
+ - Salami
+ - American
+ - Tomatoes
+ - Mayo
+Total Cost: $13.00
+Drinks:
+Chips:
+
+Total Cost: $13.0

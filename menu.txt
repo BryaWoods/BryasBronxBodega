@@ -4,44 +4,43 @@
 12" Sandwich: 8.50
 
 # Breads
-White Bread
-Wheat Bread
-Rye Bread
-Wrap
-Lettuce Wrap
+1. White Bread
+2. Wheat Bread
+3. Rye Bread
+4. Wrap
+5. Lettuce Wrap
 
 # Meats
-Steak: 1.00 (4"), 2.00 (8"), 3.00 (12")
-Ham: 1.00 (4"), 2.00 (8"), 3.00 (12")
-Salami: 1.00 (4"), 2.00 (8"), 3.00 (12")
-Roast Beef: 1.00 (4"), 2.00 (8"), 3.00 (12")
-Chicken: 1.00 (4"), 2.00 (8"), 3.00 (12")
-Bacon: 1.00 (4"), 2.00 (8"), 3.00 (12")
+1. Steak
+2. Salami
+3. Roast Beef
+4. Chicken
+5. Bacon
 
 # Cheeses
-American: 0.75 (4"), 1.50 (8"), 2.25 (12")
-Provolone: 0.75 (4"), 1.50 (8"), 2.25 (12")
-Cheddar: 0.75 (4"), 1.50 (8"), 2.25 (12")
-Swiss: 0.75 (4"), 1.50 (8"), 2.25 (12")
+1. American
+2. Provolone
+3. Cheddar
+4. Swiss
 
 # Regular Toppings
-Lettuce
-Peppers
-Onions
-Tomatoes
-Jalapenos
-Cucumbers
-Pickles
-Guacamole
-Mushrooms
+1. Lettuce
+2. Peppers
+3. Onions
+4. Tomatoes
+5. Jalapeños
+6. Cucumbers
+7. Pickles
+8. Guacamole
+9. Mushrooms
 
 # Condiments
-Mayo
-Mustard
-Ketchup
-Ranch
-Thousand Islands
-Vinaigrette
+1. Mayo
+2. Mustard
+3. Ketchup
+4. Ranch
+5. Thousand Islands
+6. Vinaigrette
 
 # Drinks
 Small Drink: 2.00

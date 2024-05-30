@@ -1,0 +1,25 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T14:21:42.503567
+Sandwiches:
+4" White Bread Sandwich
+Toasted
+Toppings:
+ - Steak
+ - Extra Steak
+ - Salami
+ - Extra Salami
+ - Cheddar
+ - Extra Cheddar
+ - Guacamole
+ - Pickles
+ - Peppers
+ - Mayo
+ - Ranch
+Total Cost: $13.60
+Drinks:
+Large Diet Coke ($3.00)
+Chips:
+Original Lays ($1.50)
+
+Total Cost: $18.1

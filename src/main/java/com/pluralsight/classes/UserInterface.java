@@ -31,17 +31,10 @@ public class UserInterface {
 
     }
 
-    private void readMenuFromFile(String filename) throws IOException {
-        menuFileManager.readMenuFromFile("menu.txt");
-    }
-
-    private void displayCategoryMenu(String category) {
+    public void displayCategoryMenu(String category) {
         List<String> items = menuFileManager.getMenuItems(category);
-        if (items != null) {
-            System.out.println(category + ":");
-            for (String item : items) {
-                System.out.println("  - " + item);
-            }
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println((i + 1) + ". " + items.get(i));
         }
     }
 
@@ -54,8 +47,7 @@ public class UserInterface {
             String name = scanner.nextLine();
 
             if (name.equalsIgnoreCase("Staff")) {
-                System.out.println("Enter password to access employee menu:");
-                String password = scanner.nextLine();
+
 
                 if (authenticatePassword()) {
                     System.out.println("Authentication successful.");
@@ -94,6 +86,7 @@ public class UserInterface {
                     break;
                 case 0:
                     System.out.println("Exiting Employee Menu.");
+                    clearCurrentOrder();
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -106,11 +99,12 @@ public class UserInterface {
 
 
         while (true) {
-            System.out.println("New Order - Please choose an option:");
+            System.out.println("Please choose an option:");
             System.out.println("1) Add Sandwich");
             System.out.println("2) Add Drink");
             System.out.println("3) Add Chips");
-            System.out.println("4) Checkout");
+            System.out.println("4) Secret Menu");
+            System.out.println("5) Checkout");
             System.out.println("0) Cancel Order");
 
             int choice = scanner.nextInt();
@@ -127,6 +121,9 @@ public class UserInterface {
                     addChips();
                     break;
                 case 4:
+                    displaySecretMenu();
+                    return;
+                case 5:
                     checkout();
                     return;
                 case 0:
@@ -170,30 +167,25 @@ public class UserInterface {
 
         //BREAD
 
-        System.out.println("Select your bread type or choose a lettuce wrap:");
+        System.out.println("Select your bread type:");
         displayCategoryMenu("Breads");
 
-        String breadType = scanner.nextLine();
+        String breadChoice = scanner.nextLine();
 
-        if (breadType.equalsIgnoreCase("Lettuce Wrap")) {
-            sandwich.setBreadType("Lettuce Wrap");
-        } else {
-            boolean validBread = false;
-
-            for (String item : menuFileManager.getMenuItems("Breads")) {
-                if (item.equalsIgnoreCase(breadType)) {
-                    sandwich.setBreadType(breadType);
-                    validBread = true;
-                    break;
-                }
-            }
-
-            if (!validBread) {
+        try {
+            int breadNumber = Integer.parseInt(breadChoice);
+            List<String> breads = menuFileManager.getMenuItems("Breads");
+            if (breadNumber > 0 && breadNumber <= breads.size()) {
+                String breadType = breads.get(breadNumber - 1);
+                sandwich.setBreadType(breadType);
+                System.out.println(breadType + " selected.");
+            } else {
                 System.out.println("Invalid choice. Please try again.");
                 return;
-
-
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+            return;
         }
 
 
@@ -204,15 +196,16 @@ public class UserInterface {
             System.out.println("Select a meat topping (or type 'done' to finish):");
             displayCategoryMenu("Meats");
 
-            String meat = scanner.nextLine();
-            if (meat.equalsIgnoreCase("done")) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("done")) {
                 break;
             }
 
-
-            boolean validMeat = false;
-            for (String item : menuFileManager.getMenuItems("Meats")) {
-                if (item.startsWith(meat)) {
+            try {
+                int meatNumber = Integer.parseInt(input);
+                List<String> meats = menuFileManager.getMenuItems("Meats");
+                if (meatNumber > 0 && meatNumber <= meats.size()) {
+                    String meat = meats.get(meatNumber - 1);
                     double extraCost = 0.0;
                     switch (sandwich.getSize()) {
                         case 4:
@@ -227,33 +220,35 @@ public class UserInterface {
                     }
                     sandwich.addTopping(new PremiumTopping(meat, extraCost));
                     sandwich.setCost(sandwich.getCost() + extraCost);
-                    validMeat = true;
-                    break;
-                }
-            }
-            if (!validMeat) {
-                System.out.println("Invalid choice. Please try again.");
-            } else {
-                System.out.println("Would you like to double your meat? (yes/no)");
-                String extraMeat = scanner.nextLine();
-                if (extraMeat.equalsIgnoreCase("yes")) {
-                    double extraCost = 0.0;
-                    switch (sandwich.getSize()) {
-                        case 4:
-                            extraCost = .50;
-                            break;
-                        case 8:
-                            extraCost = 1.00;
-                            break;
-                        case 12:
-                            extraCost = 1.50;
-                            break;
+                    System.out.println(meat + " added.");
+
+                    System.out.println("Would you like to double your meat? (yes/no)");
+                    String extraMeat = scanner.nextLine();
+                    if (extraMeat.equalsIgnoreCase("yes")) {
+                        double doubleExtraCost = 0.0;
+                        switch (sandwich.getSize()) {
+                            case 4:
+                                doubleExtraCost = 0.50;
+                                break;
+                            case 8:
+                                doubleExtraCost = 1.00;
+                                break;
+                            case 12:
+                                doubleExtraCost = 1.50;
+                                break;
+                        }
+                        sandwich.addTopping(new PremiumTopping("Extra " + meat, doubleExtraCost));
+                        sandwich.setCost(sandwich.getCost() + doubleExtraCost);
+                        System.out.println("Extra " + meat + " added.");
                     }
-                    sandwich.addTopping(new PremiumTopping("Extra " + meat, extraCost));
-                    sandwich.setCost(sandwich.getCost() + extraCost);
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
             }
         }
+
 
 
         //CHEESE
@@ -262,14 +257,16 @@ public class UserInterface {
             System.out.println("Select a cheese topping (or type 'done' to finish):");
             displayCategoryMenu("Cheeses");
 
-            String cheese = scanner.nextLine();
-            if (cheese.equalsIgnoreCase("done")) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("done")) {
                 break;
             }
 
-            boolean validCheese = false;
-            for (String item : menuFileManager.getMenuItems("Cheeses")) {
-                if (item.startsWith(cheese)) {
+            try {
+                int cheeseNumber = Integer.parseInt(input);
+                List<String> cheeses = menuFileManager.getMenuItems("Cheeses");
+                if (cheeseNumber > 0 && cheeseNumber <= cheeses.size()) {
+                    String cheese = cheeses.get(cheeseNumber - 1);
                     double extraCost = 0.0;
                     switch (sandwich.getSize()) {
                         case 4:
@@ -284,33 +281,32 @@ public class UserInterface {
                     }
                     sandwich.addTopping(new PremiumTopping(cheese, extraCost));
                     sandwich.setCost(sandwich.getCost() + extraCost);
-                    validCheese = true;
-                    break;
-                }
-            }
-            if (!validCheese) {
-                System.out.println("Invalid choice. Please try again.");
+                    System.out.println(cheese + " added.");
 
-            } else {
-
-                System.out.println("Would you like to double yor cheese?!? (yes/no)");
-                String extraCheese = scanner.nextLine();
-                if (extraCheese.equalsIgnoreCase("yes")) {
-                    double extraCost = 0.0;
-                    switch (sandwich.getSize()) {
-                        case 4:
-                            extraCost = 0.30;
-                            break;
-                        case 8:
-                            extraCost = .60;
-                            break;
-                        case 12:
-                            extraCost = 0.90;
-                            break;
+                    System.out.println("Would you like to double your cheese? (yes/no)");
+                    String extraCheese = scanner.nextLine();
+                    if (extraCheese.equalsIgnoreCase("yes")) {
+                        double doubleExtraCost = 0.0;
+                        switch (sandwich.getSize()) {
+                            case 4:
+                                doubleExtraCost = 0.30;
+                                break;
+                            case 8:
+                                doubleExtraCost = 0.60;
+                                break;
+                            case 12:
+                                doubleExtraCost = 0.90;
+                                break;
+                        }
+                        sandwich.addTopping(new PremiumTopping("Extra " + cheese, doubleExtraCost));
+                        sandwich.setCost(sandwich.getCost() + doubleExtraCost);
+                        System.out.println("Extra " + cheese + " added.");
                     }
-                    sandwich.addTopping(new PremiumTopping("Extra " + cheese, extraCost));
-                    sandwich.setCost(sandwich.getCost() + extraCost);
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
             }
         }
 
@@ -322,21 +318,23 @@ public class UserInterface {
             System.out.println("Select a regular topping (or type 'done' to finish):");
             displayCategoryMenu("Regular Toppings");
 
-            String topping = scanner.nextLine();
-            if (topping.equalsIgnoreCase("done")) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("done")) {
                 break;
             }
 
-            boolean validTopping = false;
-            for (String item : menuFileManager.getMenuItems("Regular Toppings")) {
-                if (item.equalsIgnoreCase(topping)) {
+            try {
+                int toppingNumber = Integer.parseInt(input);
+                List<String> toppings = menuFileManager.getMenuItems("Regular Toppings");
+                if (toppingNumber > 0 && toppingNumber <= toppings.size()) {
+                    String topping = toppings.get(toppingNumber - 1);
                     sandwich.addTopping(new RegularTopping(topping));
-                    validTopping = true;
-                    break;
+                    System.out.println(topping + " added.");
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
                 }
-            }
-            if (!validTopping) {
-                System.out.println("Invalid choice. Please try again.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
             }
         }
 
@@ -346,23 +344,26 @@ public class UserInterface {
             System.out.println("Select a condiment (or type 'done' to finish):");
             displayCategoryMenu("Condiments");
 
-            String condiment = scanner.nextLine();
-            if (condiment.equalsIgnoreCase("done")) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("done")) {
                 break;
             }
 
-            boolean validCondiment = false;
-            for (String item : menuFileManager.getMenuItems("Condiments")) {
-                if (item.equalsIgnoreCase(condiment)) {
+            try {
+                int condimentNumber = Integer.parseInt(input);
+                List<String> condiments = menuFileManager.getMenuItems("Condiments");
+                if (condimentNumber > 0 && condimentNumber <= condiments.size()) {
+                    String condiment = condiments.get(condimentNumber - 1);
                     sandwich.addTopping(new RegularTopping(condiment));
-                    validCondiment = true;
-                    break;
+                    System.out.println(condiment + " added.");
+                } else {
+                    System.out.println("Invalid choice. Please try again.");
                 }
-            }
-            if (!validCondiment) {
-                System.out.println("Invalid choice. Please try again.");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
             }
         }
+
 
         //TOASTED
 
@@ -374,12 +375,12 @@ public class UserInterface {
             sandwich.setToasted(false);
         }
 
-        System.out.println("Your sandwich:");
+        /*System.out.println("Your sandwich:");
         System.out.println("Size: " + sandwich.getSize() + "\"");
         System.out.println("Bread: " + sandwich.getBreadType());
         System.out.println("Toppings: " + sandwich.getToppings());
         System.out.println("Toasted: " + (sandwich.isToasted() ? "Yes" : "No"));
-        System.out.println("Cost: $" + sandwich.getCost());
+        System.out.println("Cost: $" + sandwich.getCost());*/
 
         order.addSandwich(sandwich);
 
@@ -577,14 +578,16 @@ public class UserInterface {
     }
 
 
-    public void checkout(){
-
+    public void checkout() {
         displayConfirmationScreen();
         ordersManager.addOrder(order);
-        clearCurrentOrder();
 
-        System.exit(0);
 
+        List<Order> pendingOrdersList = ordersManager.getPendingOrders();
+        pendingOrdersList.add(order);
+
+
+        System.out.println("Estimated wait time 15 min");
 
     }
 
@@ -760,8 +763,8 @@ public class UserInterface {
         scanner.nextLine();
 
         Order orderToComplete = null;
-        List<Order> ordersList = ordersManager.getAllOrders();
-        for (Order order : ordersList) {
+        List<Order> pendingOrdersList = ordersManager.getPendingOrders();
+        for (Order order : pendingOrdersList ) {
             if (order.getOrderId() == orderId) {
                 orderToComplete = order;
                 break;
@@ -769,7 +772,7 @@ public class UserInterface {
         }
 
         if (orderToComplete != null) {
-            ordersManager.completeOrder(orderToComplete); // Use the completeOrder method from OrdersManager
+            ordersManager.completeOrder(orderToComplete);
             System.out.println("Order completed and moved to completed orders list.");
         } else {
             System.out.println("Order not found. Please enter a valid ID.");
@@ -781,17 +784,20 @@ public class UserInterface {
 
 
     private void displayOrdersInProgress() {
+
+
         System.out.println("Orders in Progress:");
-        List<Order> ordersList = ordersManager.getAllOrders();
-        for (Order order : ordersList) {
+        List<Order> pendingOrdersList = ordersManager.getPendingOrders();
+        for (Order order : pendingOrdersList) {
             System.out.println("Order ID: " + order.getOrderId());
-            System.out.println("Customer Name: " + order.getCustomerName());
             System.out.println("Order Status: In Progress");
             System.out.println("Order Details:");
-            order.getCurrentOrder();
+            String orderDetails = order.toString();
+            System.out.println(orderDetails);
             System.out.println("--------------------------------------");
         }
     }
+
 
     private void displayCompletedOrders() {
 
@@ -821,6 +827,96 @@ public class UserInterface {
 
     public void cancelOrder() {
         ordersManager.removeOrder(order);
+    }
+
+    private void displaySecretMenu() {
+        System.out.println("Welcome to Brya's Secret Menu!");
+        System.out.println("Choose from our wild and exclusive offerings:");
+
+        System.out.println("1) Hail Brya - $7.00 - Steak, American, Lettuce, Special Sauce");
+        System.out.println("2) Beach Don't Kill My Vibe - $6.50 - Piña Colada, Limon lays, Shot of tequila");
+        System.out.println("3) PB&J - $4.00 - Peanut butter, Grape jelly ");
+        System.out.println("4) WIITB?! - $6.50 - Ham, Cheese, Mayo, Lays on the sandwich");
+        System.out.println("5) I ♥ NYC - $7.00 - Bagel, Cream Cheese");
+        System.out.println("6) Bad Bunny Burger  - $6.50 - Grilled Cheese with a burger inside");
+
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+                addHailBrya();
+                break;
+            case 2:
+                addBDKMV();
+                break;
+            case 3:
+                addPBJ();
+                break;
+            case 4:
+                addWIITB();
+                break;
+            case 5:
+                addNYC();
+                break;
+            case 6:
+                addBBB();
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+   public void addHailBrya() {
+       Sandwich sandwich = new Sandwich();
+
+       sandwich.setSize(8);
+
+       sandwich.setCost(7.00);
+
+       sandwich.setBreadType("white bread");
+
+       sandwich.addTopping(new RegularTopping("Steak"));
+       sandwich.addTopping(new RegularTopping("Lettuce"));
+       sandwich.addTopping(new RegularTopping("American"));
+       sandwich.addTopping(new RegularTopping("Special Sauce"));
+
+       sandwich.setToasted(true);
+
+       order.addSandwich(sandwich);
+
+       System.out.println("Hail Brya added to your order!!");
+
+
+    }
+
+    public void addBDKMV(){
+
+        Drink drink = new Drink("Large","Piña Colada",6.50);
+
+        Chip chip = new Chip("Limon Lays", 0);
+
+        Drink shot = new Drink("Small","Tequila Shot",0);
+
+
+
+
+    }
+
+    public void addPBJ() {
+
+    }
+    public void addWIITB() {
+
+    }
+
+    public void addNYC() {
+
+    }
+
+    public void addBBB() {
+
     }
 
 

@@ -25,7 +25,10 @@ public class MenuFileManager {
                     currentCategory = line.substring(1).trim();
                     menu.put(currentCategory, new ArrayList<>());
                 } else if (!line.isEmpty()) {
-                    menu.get(currentCategory).add(line);
+                    String[] parts = line.split("\\.", 2);
+                    if (parts.length == 2) {
+                        menu.get(currentCategory).add(parts[1].trim());
+                    }
                 }
             }
         }

@@ -1,0 +1,37 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T13:57:35.251912
+Sandwiches:
+12" Lettuce Wrap Sandwich
+Toppings:
+ - Bacon: 1.00 (4"), 2.00 (8"), 3.00 (12")
+ - Extra Bacon: 1.00 (4"), 2.00 (8"), 3.00 (12")
+ - Roast Beef: 1.00 (4"), 2.00 (8"), 3.00 (12")
+ - Extra Roast Beef: 1.00 (4"), 2.00 (8"), 3.00 (12")
+ - American: 0.75 (4"), 1.50 (8"), 2.25 (12")
+ - Extra American: 0.75 (4"), 1.50 (8"), 2.25 (12")
+ - Lettuce
+ - Guacamole
+ - Mushrooms
+ - Mayo
+ - Vinaigrette
+Total Cost: $31.30
+8" Rye Bread Sandwich
+Toasted
+Toppings:
+ - Bacon: 1.00 (4"), 2.00 (8"), 3.00 (12")
+ - Extra Bacon: 1.00 (4"), 2.00 (8"), 3.00 (12")
+ - Swiss: 0.75 (4"), 1.50 (8"), 2.25 (12")
+ - Peppers
+ - Onions
+ - Mayo
+ - Mustard
+Total Cost: $15.00
+Drinks:
+Large Medalla Beer ($3.00)
+Medium Piña Colada ($2.50)
+Chips:
+Hot Cheetos ($1.50)
+Limon Lays ($1.50)
+
+Total Cost: $54.8

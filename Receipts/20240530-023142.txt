@@ -1,0 +1,24 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T14:30:14.101679
+Sandwiches:
+4" White Bread Sandwich
+Toasted
+Toppings:
+ - Steak
+ - Extra Steak
+ - Salami
+ - Extra Salami
+ - American
+ - Peppers
+ - Onions
+ - Tomatoes
+ - Mayo
+ - Ranch
+Total Cost: $13.00
+Drinks:
+Large Sprite ($3.00)
+Chips:
+Cheetos ($1.50)
+
+Total Cost: $17.5

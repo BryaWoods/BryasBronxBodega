@@ -8,17 +8,22 @@ import java.util.List;
 public class OrdersManager {
     private List<Order> orders;
     private List<Order> archiveOrders;
+    private List<Order> pendingOrders;
 
     public OrdersManager() {
         orders = new ArrayList<>();
+        archiveOrders = new ArrayList<>();
+        pendingOrders = new ArrayList<>();
     }
 
     public void addOrder(Order order) {
         orders.add(order);
+        pendingOrders.add(order); // Add the order to pending orders when it's added
     }
 
     public void removeOrder(Order order) {
         orders.remove(order);
+        pendingOrders.remove(order); // Also remove from pending orders
     }
 
     public List<Order> getAllOrders() {
@@ -50,20 +55,24 @@ public class OrdersManager {
         }
     }
 
-            public void completeOrder(Order order) {
-                if (orders.contains(order)) {
-                    archiveOrders.add(order);
-                    orders.remove(order);
-                    System.out.println("Order completed and archived.");
-                } else {
-                    System.out.println("Order not found.");
-                }
-            }
+    public void completeOrder(Order order) {
+        if (orders.contains(order)) {
+            archiveOrders.add(order);
+            pendingOrders.remove(order);
+            orders.remove(order);
+            System.out.println("Order completed and archived.");
+        } else {
+            System.out.println("Order not found.");
+        }
+    }
 
     public List<Order> getArchiveOrders() {
         return archiveOrders;
     }
 
+    public List<Order> getPendingOrders() {
+        return pendingOrders;
+    }
 
     public void displayArchiveOrders() {
         if (archiveOrders.isEmpty()) {
@@ -76,4 +85,15 @@ public class OrdersManager {
         }
     }
 
+    public void displayPendingOrders() {
+        if (pendingOrders.isEmpty()) {
+            System.out.println("No pending orders currently.");
+        } else {
+            System.out.println("Pending Orders:");
+            for (Order order : pendingOrders) {
+                System.out.println(order);
+            }
         }
+    }
+}
+

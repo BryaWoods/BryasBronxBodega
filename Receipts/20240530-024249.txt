@@ -1,0 +1,40 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T14:40:08.987227
+Sandwiches:
+4" White Bread Sandwich
+Toasted
+Toppings:
+ - Steak
+ - Extra Steak
+ - Steak
+ - Extra Steak
+ - American
+ - Extra American
+ - Guacamole
+ - Pickles
+ - Cucumbers
+ - Jalapeños
+ - Tomatoes
+ - Mayo
+ - Mustard
+Total Cost: $13.60
+8" Wheat Bread Sandwich
+Toasted
+Toppings:
+ - Salami
+ - Extra Salami
+ - Provolone
+ - Extra Provolone
+ - Peppers
+ - Onions
+ - Tomatoes
+ - Mustard
+ - Ketchup
+Total Cost: $16.20
+Drinks:
+Large Sprite ($3.00)
+Chips:
+Cheetos ($1.50)
+
+Total Cost: $34.3
