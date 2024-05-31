@@ -4,6 +4,8 @@
 
 The Bodega Ordering System is a Java-based application designed to facilitate the process of placing orders for sandwiches, drinks, and chips. The application provides a user-friendly interface with intuitive menus and options to create and manage orders efficiently.
 
+![bodegaClassDiagram](https://github.com/BryaWoods/BryasBronxBodega/assets/166551351/ffcaa77c-f2fa-4fd6-8c2c-233929571bda)
+
 
 ## User Stories
 
