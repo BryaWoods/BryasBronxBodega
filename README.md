@@ -50,6 +50,7 @@ Follow these steps to get your application running within IntelliJ IDEA:
 ## Demo
 
 
+![bodegaDemo](https://github.com/BryaWoods/BryasBronxBodega/assets/166551351/a8dfbc5b-826f-43c8-b271-2a1cffe91322)
 
 
 
