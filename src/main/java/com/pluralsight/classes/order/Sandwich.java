@@ -10,7 +10,6 @@ public class Sandwich {
     private int size;
     private String breadType;
     private List<Topping> toppings;
-    private String condiments;
     private boolean isToasted;
     private double cost;
 
@@ -47,14 +46,6 @@ public class Sandwich {
         isToasted = toasted;
     }
 
-    public String getCondiments() {
-        return condiments;
-    }
-
-    public void setCondiments(String condiments) {
-        this.condiments = condiments;
-    }
-
     public double getCost() {
         return cost;
     }
@@ -71,9 +62,6 @@ public class Sandwich {
         toppings.add(topping);
     }
 
-    public void removeTopping(Topping topping) {
-        toppings.remove(topping);
-    }
 
     public double calculateSandwichCost() {
         double totalCost = this.cost;

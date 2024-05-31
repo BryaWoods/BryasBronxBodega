@@ -1,0 +1,22 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T19:15:01.059635
+Sandwiches:
+4" White Bread Sandwich
+Toasted
+Toppings:
+ - Salami
+ - Extra Salami
+ - American
+ - Extra American
+ - Mushrooms
+ - Mushrooms
+ - Mushrooms
+ - Mayo
+Total Cost: $10.60
+Drinks:
+Large Piña Colada ($3.00)
+Chips:
+Chile Limon Plantain Chips ($1.50)
+
+Total Cost: $15.100000000000001

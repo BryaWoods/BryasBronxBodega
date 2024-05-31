@@ -1,7 +1,5 @@
 package com.pluralsight.classes.order;
 
-import com.pluralsight.classes.Order;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +36,6 @@ public class OrdersManager {
         }
     }
 
-    public List<Order> getArchiveOrders() {
-        return archiveOrders;
-    }
 
     public List<Order> getPendingOrders() {
         return pendingOrders;

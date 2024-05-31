@@ -1,14 +1,10 @@
-package com.pluralsight.classes;
+package com.pluralsight.classes.order;
 
 import com.pluralsight.classes.files.ReceiptFileManager;
-import com.pluralsight.classes.order.Chip;
-import com.pluralsight.classes.order.Drink;
-import com.pluralsight.classes.order.Sandwich;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Order {
 
@@ -18,9 +14,8 @@ public class Order {
     private List<Sandwich> sandwiches;
     private List<Drink> drinks;
     private List<Chip> chips;
+    private List<Sides> sides;
     private LocalDateTime timeOfOrder;
-    private Scanner scanner;
-    private String name;
 
 
     public Order() {
@@ -28,12 +23,14 @@ public class Order {
         this.drinks = new ArrayList<>();
         this.chips = new ArrayList<>();
         this.timeOfOrder = LocalDateTime.now();
-        this.scanner = new Scanner(System.in);
         this.lastAddedSandwichIndex = -1;
         this.orderId = nextOrderId++;
-        this.name = name;
+        this.sides = new ArrayList<>();
     }
 
+    public List<Sides> getSides() {
+        return sides;
+    }
 
     public List<Sandwich> getSandwiches() {
         return sandwiches;
@@ -49,10 +46,6 @@ public class Order {
         return chips;
     }
 
-
-    public LocalDateTime getTimeOfOrder() {
-        return timeOfOrder;
-    }
 
 
     public void addSandwich(Sandwich sandwich) {
@@ -73,6 +66,12 @@ public class Order {
     }
 
 
+    public void addSides(Sides side) {
+        sides.add(side);
+    }
+
+
+
     public double calculateOrderTotal() {
         double total = 0.0;
         for (Sandwich sandwich : sandwiches) {
@@ -83,6 +82,9 @@ public class Order {
         }
         for (Chip chip : chips) {
             total += chip.getCost();
+        }
+        for (Sides side : sides) {
+            total += side.getCost();
         }
         return total;
     }
@@ -106,6 +108,11 @@ public class Order {
         builder.append("Chips:\n");
         for (Chip chip : chips) {
             builder.append(chip.toString()).append("\n");
+        }
+
+        builder.append("Sides:\n");
+        for (Sides side : sides) {
+            builder.append(side.toString()).append("\n");
         }
 
         return builder.toString();
@@ -151,7 +158,7 @@ public class Order {
     public void getCurrentOrder() {
         System.out.println("Current Order:");
 
-        if (sandwiches.isEmpty() && drinks.isEmpty() && chips.isEmpty()) {
+        if (sandwiches.isEmpty() && drinks.isEmpty() && chips.isEmpty() && sides.isEmpty()) {
             System.out.println("Your order is empty.");
         } else {
             if (!sandwiches.isEmpty()) {
@@ -175,12 +182,18 @@ public class Order {
                     System.out.println("----------------------");
                 }
             }
+            if (!sides.isEmpty()) {
+                System.out.println("Sides:");
+                for (Sides side : sides) {
+                    System.out.println(side.getDetails());
+                    System.out.println("----------------------");
+                }
+            }
 
+            System.out.println("Total Cost: $" + calculateOrderTotal());
         }
-
-        System.out.println("Total Cost: $" + calculateOrderTotal());
-
     }
+
 
     public void removeDrink(Drink drink) {
         drinks.remove(drink);
@@ -190,24 +203,16 @@ public class Order {
         chips.remove(chip);
     }
 
-    public static int getNextOrderId() {
-        return nextOrderId;
+    public void removeSides(Sides side) {
+        sides.remove(side);
     }
 
-    public static void setNextOrderId(int nextOrderId) {
-        Order.nextOrderId = nextOrderId;
-    }
 
     public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
 
-    public String getCustomerName() {
 
-        return name;
-    }
+
 }

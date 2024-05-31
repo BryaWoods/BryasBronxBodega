@@ -1,0 +1,20 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T20:30:52.125459
+Sandwiches:
+8" white bread Sandwich
+Toasted
+Toppings:
+ - Steak
+ - Lettuce
+ - American
+ - Special Sauce
+Total Cost: $7.00
+Drinks:
+Chips:
+Limon Lays ($1.50)
+Doritos ($1.50)
+Sides:
+Brya's Bodega reusable tote bag - $15.0
+
+Total Cost: $25.0

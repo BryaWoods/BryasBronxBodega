@@ -1,19 +1,21 @@
 package com.pluralsight.classes.order;
 
-public class Chip {
-
-    private String type;
+public class Sides {
+    private String name;
     private double cost;
 
-    public Chip(String type, double cost) {
-        this.type = type;
+    public Sides(String name, double cost) {
+        this.name = name;
         this.cost = cost;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public double getCost() {
         return cost;
@@ -23,15 +25,15 @@ public class Chip {
         this.cost = cost;
     }
 
-    public String getDetails() {
-        StringBuilder details = new StringBuilder();
-        details.append("Chip: ").append(type).append("\n");
-        details.append("Cost: $").append(cost).append("\n");
-        return details.toString();
-    }
-
     @Override
     public String toString() {
-        return type + " ($" + String.format("%.2f", cost) + ")";
+        return name + " - $" + cost;
+    }
+
+    public String getDetails() {
+        StringBuilder details = new StringBuilder();
+        details.append("Side: ").append(name).append("\n");
+        details.append("Cost: $").append(cost).append("\n");
+        return details.toString();
     }
 }

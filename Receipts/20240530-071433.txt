@@ -1,0 +1,16 @@
+Order Details:
+Order Details:
+Time of Order: 2024-05-30T19:14:07.668778
+Sandwiches:
+8" bagel Sandwich
+Toasted
+Toppings:
+ - Cream Cheese
+Total Cost: $7.00
+Drinks:
+Large Piña Colada ($6.50)
+Small Tequila Shot ($0.00)
+Chips:
+Limon Lays ($0.00)
+
+Total Cost: $13.5

@@ -1,15 +1,9 @@
 package com.pluralsight.classes.order;
 
-import com.pluralsight.classes.Order;
 import com.pluralsight.classes.topping.RegularTopping;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 public class SecretMenu {
 
-    // Reference to the current order
     private Order order;
 
     public SecretMenu(Order order) {

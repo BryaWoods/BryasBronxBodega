@@ -4,6 +4,8 @@ import com.pluralsight.classes.files.MenuFileManager;
 import com.pluralsight.classes.order.*;
 import com.pluralsight.classes.topping.PremiumTopping;
 import com.pluralsight.classes.topping.RegularTopping;
+import com.pluralsight.classes.order.Sides;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -16,7 +18,7 @@ public class UserInterface {
     Order order = new Order();
 
     public UserInterface(){
-        
+
         scanner = new Scanner(System.in);
         menuFileManager = new MenuFileManager();
         ordersManager= new OrdersManager();
@@ -69,25 +71,30 @@ public class UserInterface {
             System.out.println("3. Display Completed Orders");
             System.out.println("0. Exit Employee Menu");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                int choice = scanner.nextInt();
+                scanner.nextLine();
 
-            switch (choice) {
-                case 1:
-                    completeOrdersMenu();
-                    break;
-                case 2:
-                    displayOrdersInProgress();
-                    break;
-                case 3:
-                    displayCompletedOrders();
-                    break;
-                case 0:
-                    System.out.println("Exiting Employee Menu.");
-                    clearCurrentOrder();
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                switch (choice) {
+                    case 1:
+                        completeOrdersMenu();
+                        break;
+                    case 2:
+                        displayOrdersInProgress();
+                        break;
+                    case 3:
+                        displayCompletedOrders();
+                        break;
+                    case 0:
+                        System.out.println("Exiting Employee Menu.");
+                        clearCurrentOrder();
+                        return;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.nextLine();
             }
         }
     }
@@ -101,8 +108,9 @@ public class UserInterface {
             System.out.println("1) Add Sandwich");
             System.out.println("2) Add Drink");
             System.out.println("3) Add Chips");
-            System.out.println("4) Secret Menu");
-            System.out.println("5) Checkout");
+            System.out.println("4) Add Side");
+            System.out.println("5) Secret Menu");
+            System.out.println("6) Checkout");
             System.out.println("0) Cancel Order");
 
             int choice = scanner.nextInt();
@@ -119,9 +127,12 @@ public class UserInterface {
                     addChips();
                     break;
                 case 4:
-                    displaySecretMenu();
+                    addSidesToOrder();
                     break;
                 case 5:
+                    displaySecretMenu();
+                    break;
+                case 6:
                     checkout();
                     return;
                 case 0:
@@ -312,8 +323,17 @@ public class UserInterface {
         //TOPPINGS
 
 
+        int maxToppings = 5;
+        int toppingCount = 0;
+
         while (true) {
+            if (toppingCount >= maxToppings) {
+                System.out.println("You have reached the maximum limit of toppings.");
+                break;
+            }
+
             System.out.println("Select a regular topping (or type 'done' to finish):");
+            System.out.println("Limit of 5 toppings");
             displayCategoryMenu("Regular Toppings");
 
             String input = scanner.nextLine();
@@ -328,6 +348,7 @@ public class UserInterface {
                     String topping = toppings.get(toppingNumber - 1);
                     sandwich.addTopping(new RegularTopping(topping));
                     System.out.println(topping + " added.");
+                    toppingCount++;
                 } else {
                     System.out.println("Invalid choice. Please try again.");
                 }
@@ -373,12 +394,6 @@ public class UserInterface {
             sandwich.setToasted(false);
         }
 
-        /*System.out.println("Your sandwich:");
-        System.out.println("Size: " + sandwich.getSize() + "\"");
-        System.out.println("Bread: " + sandwich.getBreadType());
-        System.out.println("Toppings: " + sandwich.getToppings());
-        System.out.println("Toasted: " + (sandwich.isToasted() ? "Yes" : "No"));
-        System.out.println("Cost: $" + sandwich.getCost());*/
 
         order.addSandwich(sandwich);
 
@@ -575,16 +590,41 @@ public class UserInterface {
 
     }
 
+    public void addSidesToOrder() {
+
+        System.out.println("Select a side (or type 'done' to finish):");
+        displayCategoryMenu("Sides");
+
+        String input = scanner.nextLine();
+        if (input.equalsIgnoreCase("done")) {
+            return;
+        }
+
+        try {
+            int sideNumber = Integer.parseInt(input);
+            List<String> sides = menuFileManager.getMenuItems("Sides");
+            if (sideNumber > 0 && sideNumber <= sides.size()) {
+                String side = sides.get(sideNumber - 1);
+                double cost = 0.0; //
+                if (sideNumber == 3) {
+                    cost = 15.0;
+                }
+                order.addSides(new Sides(side, cost));
+                System.out.println(side + " added to your order.");
+            } else {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input. Please enter a number.");
+        }
+    }
+
+
 
     public void checkout() {
         displayConfirmationScreen();
         ordersManager.addOrder(order);
         order = new Order();
-
-
-        //List<Order> pendingOrdersList = ordersManager.getPendingOrders();
-        //pendingOrdersList.add(order);
-
 
         System.out.println("Estimated wait time 15 min");
 
@@ -599,7 +639,8 @@ public class UserInterface {
             System.out.println("1) Remove Sandwich");
             System.out.println("2) Remove Drink");
             System.out.println("3) Remove Chip");
-            System.out.println("4) Done Editing");
+            System.out.println("4) Remove Side");
+            System.out.println("5) Done Editing");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -615,7 +656,11 @@ public class UserInterface {
                     removeChipFromOrder();
                     break;
                 case 4:
+                    removeSideFromOrder();
+                    break;
+                case 5:
                     return;
+
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -697,6 +742,28 @@ public class UserInterface {
             Chip chipToRemove = chips.get(choice - 1);
             order.removeChip(chipToRemove);
             System.out.println(chipToRemove.getType() + " removed from the order.");
+        } else {
+            System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    public void removeSideFromOrder() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Select the side you want to remove:");
+
+        List<Sides> sides = order.getSides();
+        for (int i = 0; i < sides.size(); i++) {
+            System.out.println((i + 1) + ") " + sides.get(i).getName());
+        }
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice >= 1 && choice <= sides.size()) {
+            Sides sideToRemove = sides.get(choice - 1);
+            order.removeSides(sideToRemove);
+            System.out.println(sideToRemove.getName() + " removed from the order.");
         } else {
             System.out.println("Invalid choice. Please try again.");
         }

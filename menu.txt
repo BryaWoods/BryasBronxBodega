@@ -51,5 +51,6 @@ Large Drink: 3.00
 Chips: 1.50
 
 # Sides
-Au Jus
-Sauce
+1. Au Jus
+2. Sauce
+3. Brya's Bodega reusable tote bag
