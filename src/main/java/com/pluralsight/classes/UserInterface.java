@@ -42,7 +42,7 @@ public class UserInterface {
 
         while (true) {
             System.out.println(" ");
-            System.out.println("Welcome 2 Brya's Bronx Bodega!");
+            System.out.println("🅆🄴🄻🄲🄾🄼🄴 ② 🄱🅁🅈🄰'🅂 🄱🅁🄾🄽🅇 🄱🄾🄳🄴🄶🄰");
             System.out.println("Enter your name to proceed:");
             String name = scanner.nextLine();
 
@@ -57,7 +57,7 @@ public class UserInterface {
                     return;
                 }
             } else {
-                System.out.println("Hello, " + name + "! Let's start your order.");
+                System.out.println("Hola, " + name + "! Let's start your order.");
                 customerOrder();
             }
         }
